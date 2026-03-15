@@ -1,0 +1,16 @@
+# The foundation image (OS + Python). [Base images](https://hub.docker.com/_/python)
+FROM python:3.9-slim
+
+# Setting the working directory for any instruction that follow it in the Dockerfile
+WORKDIR /app
+
+# Copies files from source(s) to destination 
+COPY requirements.txt .
+
+# Executes any commands to create a new layer on top of the current image, at the time you build the image 
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# The "Go" signal, at the run-time when the container starts
+CMD ["python", "main.py"]

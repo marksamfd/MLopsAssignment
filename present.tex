@@ -1,0 +1,108 @@
+\documentclass[10pt]{beamer}
+\usetheme{metropolis} % A modern, clean theme
+\usepackage{booktabs}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\title{Experiment Results: Kulishova-Replication}
+\subtitle{Machine Learning vs. Deep Learning Benchmarking}
+\date{\today}
+\author{Data Export Analysis}
+\institute{W&B Project: Binary Classification}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Project Overview}
+    \begin{itemize}
+        \item \textbf{Dataset:} Kulishova Extracted Features.
+        \item \textbf{Objective:} Compare classical ML models with Deep Learning for binary classification.
+        \item \textbf{Pre-processing:} Majority class downsampling to address class imbalance.
+        \item \textbf{Models Tested:} 
+            \begin{itemize}
+                \item Support Vector Machine (SVM)
+                \item Random Forest (RF)
+                \item 1D-Convolutional Neural Network (1D-CNN)
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Model Performance Comparison}
+    The 1D-CNN outperformed classical methods, though all models showed high stability.
+    \vspace{0.5cm}
+    \begin{table}
+        \centering
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Metric} & \textbf{1D-CNN} & \textbf{Random Forest} & \textbf{SVM} \\
+            \midrule
+            Accuracy (Val) & 94.04\% & 92.87\% & 91.36\% \\
+            F1-Score (Val) & 93.64\% & 92.86\% & 91.36\% \\
+            Best Epoch & 17 & N/A & N/A \\
+            \bottomrule
+        \end{tabular}
+        \caption{Validation metrics across different architectures.}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Performance Visualization}
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            ybar,
+            enlarge x limits=0.5,
+            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            ylabel={Score (\%)},
+            symbolic x coords={1D-CNN, RF, SVM},
+            xtick=data,
+            nodes near coords,
+            nodes near coords align={vertical},
+            ylim={85, 100},
+            height=6cm,
+            width=9cm,
+            bar width=15pt,
+        ]
+            \addplot coordinates {(1D-CNN, 94.04) (RF, 92.87) (SVM, 91.36)};
+            \addplot coordinates {(1D-CNN, 93.64) (RF, 92.86) (SVM, 91.36)};
+            \legend{Accuracy, F1-Score}
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{1D-CNN Training Characteristics}
+    The deep learning model utilized a 1D-CNN architecture optimized for feature sequences.
+    
+    \begin{itemize}
+        \item \textbf{Loss Function:} Binary Crossentropy.
+        \item \textbf{Activation:} Sigmoid (Output).
+        \item \textbf{Optimizer Progress:} 
+            \begin{itemize}
+                \item Final Training Loss: 0.1590
+                \item Final Validation Loss: 0.1455
+                \item Final Learning Rate: $\sim$0.1398
+            \end{itemize}
+        \item \textbf{Efficiency:} Peak performance reached at Epoch 17 of 20.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Generalization & Overfitting Analysis}
+    \begin{block}{Random Forest}
+        High consistency between Train F1 (0.9455) and Val F1 (0.9286), indicating excellent generalization.
+    \end{block}
+    
+    \begin{block}{Support Vector Machine}
+        Perfect parity between training and validation metrics (91.36\%), suggesting the model has captured the underlying linear or kernel-based variance without any overfitting.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Conclusion \& Recommendations}
+    \begin{itemize}
+        \item \textbf{Primary Choice:} 1D-CNN is recommended for maximum predictive accuracy (94.04\%).
+        \item \textbf{Alternative:} Random Forest provides a competitive (92.87\%) and more interpretable alternative with lower computational overhead.
+        \item \textbf{Future Steps:} Evaluate model robustness against non-downsampled (imbalanced) real-world data to verify recall on the minority class.
+    \end{itemize}
+\end{frame}
+
+\end{document}

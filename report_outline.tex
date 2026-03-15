@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\title{MLOps Assignment 1: QuickDraw GAN Implementation Report Outline}
+\author{Mark Samuel 202201857}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{System Setup and Execution}
+
+\subsection{Setup Complexity}
+\textit{How many commands did I have to run before it worked?}
+\begin{itemize}
+    \item \textbf{Environment Initialization}: \texttt{uv init},  \texttt{uv add numpy torch matplotlib torchvision ipykernel}.
+    \item \textbf{Total Commands}: \texttt{2}.
+\end{itemize}
+\subsection{Dependency Management}
+\textit{What libraries were missing?}
+\begin{itemize}
+    \item List of initial missing packages (e.g., \texttt{torch}, \texttt{matplotlib}, \texttt{ipykernel}, \texttt{numpy}, \texttt{torchvision}).
+    \item Tools used to resolve dependencies \texttt{uv}
+\end{itemize}
+
+\subsection{Version Compatibility}
+\textit{Did version mismatches cause errors?}
+I did not Run into version mismatches
+
+\section{Did the model produce the same result? If not, why?}
+\begin{itemize}
+    \item \textbf{Observation}: My college's metrics are \texttt{loss D: 0.4509 | loss G: 2.9750} \\ mine are \texttt{loss D: 0.4599 | loss G: 2.4890}
+    \item \textbf{Stochastic Factors}:
+    \begin{itemize}
+        \item \textbf{Random Seeds}: The Seeds were not equal so the Randomization is not equal
+        \item \textbf{Data Shuffling}: Variations in batch Sizes and also the different seeds causes different batch content 
+    \end{itemize}
+\end{itemize}
+
+
+\section{Unattended Execution (3:00 AM Test)}
+\textit{If this had to run on a server at 3:00 AM, would it survive?}
+\begin{itemize}
+    \item \textbf{Resource Management}: Out of Memory errors would be a nightmare to handle specially the ones that are related to data and model size
+    \item \textbf{Persistence}: The current script saves (\texttt{.pt} files) automatically so I will skip the training process.
+    \item \textbf{Logging}: I will be able to diagnose errors due to the logging in the notebook 
+\end{itemize}
+
+\end{document}
