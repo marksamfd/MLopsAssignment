@@ -19,4 +19,4 @@ wheels/
 %OUTDIR%
 .vscode
 *.db
-*.npy
+/data
