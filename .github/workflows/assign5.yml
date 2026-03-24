@@ -40,7 +40,7 @@ jobs:
         run: |
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local access_key_id ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
-          dvc remote modify origin --local secret_access_key ${{ secrets.DAGSHUB_secret_ACCESS_KEY }}
+          dvc remote modify origin --local secret_access_key ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
 
       # 5. Pull training data via DVC
       - name: Pull data with DVC
