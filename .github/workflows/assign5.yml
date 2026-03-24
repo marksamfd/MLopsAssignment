@@ -34,7 +34,7 @@ jobs:
           uv sync
 
       - name: Install DVC
-        run: pip install dvc
+        run: pip install dvc[s3]
       # 4. Configure DVC remote credentials for DagsHub
       - name: Configure DagsHub DVC remote
         run: |
