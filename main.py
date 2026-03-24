@@ -1,16 +1,27 @@
 import mlflow.pytorch
 import numpy as np
 import torch
+import argparse
+
+parser = argparse.ArgumentParser(description="A simple greeting program.")
+parser.add_argument(
+    "epochs", nargs="?", type=int, default=50, help="Number of training epochs."
+)
+args = parser.parse_args()
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import matplotlib.pyplot as plt
 import mlflow
+import os
 
+tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
+
+mlflow.set_tracking_uri(tracking_uri)
 mlflow.set_experiment("Assignment3_MarkSamuel")
 
 # Load data
-data = np.load("shorts.npy")  # shape: (N, 784)
+data = np.load("data/shorts.npy")  # shape: (N, 784)
 
 # Normalize to [-1, 1] (important for GAN with Tanh)
 data = data.astype(np.float32) / 255.0
@@ -71,7 +82,7 @@ optimizer_D = optim.Adam(D.parameters(), lr=D_learning_rate)
 
 
 with mlflow.start_run():
-    epochs = 10
+    epochs = args.epochs
     mlflow.log_param("G_learning_rate", G_learning_rate)
     mlflow.log_param("D_learning_rate", D_learning_rate)
     mlflow.log_param("epochs", epochs)
@@ -141,8 +152,12 @@ with mlflow.start_run():
         name=f"discriminator_epoch_{epoch+1}",
         input_example=D_input,
     )
+    run_id = mlflow.active_run.info.run_id
 
 G.eval()
+
+with open("model_info.txt", "w") as f:
+    f.write(run_id)
 with torch.no_grad():
     z = torch.randn(16, noise_dim).to(device)
     samples = G(z).cpu().numpy()

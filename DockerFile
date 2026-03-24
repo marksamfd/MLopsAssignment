@@ -1,16 +1,31 @@
-# The foundation image (OS + Python). [Base images](https://hub.docker.com/_/python)
-FROM python:3.9-slim
+# ── Base image ────────────────────────────────────────────────────────────────
+FROM python:3.10-slim
 
-# Setting the working directory for any instruction that follow it in the Dockerfile
+# ── Build argument: MLflow Run ID passed in at build time ─────────────────────
+ARG RUN_ID
+ENV RUN_ID=${RUN_ID}
+
+# ── System dependencies ───────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── Python dependencies ───────────────────────────────────────────────────────
 WORKDIR /app
 
-# Copies files from source(s) to destination 
 COPY requirements.txt .
-
-# Executes any commands to create a new layer on top of the current image, at the time you build the image 
 RUN pip install --no-cache-dir -r requirements.txt
 
+# ── Application code ──────────────────────────────────────────────────────────
 COPY . .
 
-# The "Go" signal, at the run-time when the container starts
-CMD ["python", "main.py"]
+# ── Simulate model download from MLflow ──────────────────────────────────────
+# In production, replace the echo with an mlflow artifacts download command:
+#   RUN mlflow artifacts download -r ${RUN_ID} -d /app/model
+RUN echo "Downloading model for Run ID: ${RUN_ID}" && \
+    mkdir -p /app/model && \
+    echo "${RUN_ID}" > /app/model/run_id.txt && \
+    echo "Model download complete (simulated)."
+
+# ── Default entrypoint ────────────────────────────────────────────────────────
+CMD ["python", "-c", "print('Model container running. Run ID:', open('/app/model/run_id.txt').read().strip())"]
