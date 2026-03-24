@@ -38,7 +38,7 @@ jobs:
       # 4. Configure DVC remote credentials for DagsHub
       - name: Configure DagsHub DVC remote
         run: |
-          dvc remote add origin s3://dvc
+          dvc remote add -f origin s3://dvc
           dvc remote modify origin endpointurl https://dagshub.com/marksamfd/MLopsAssignment.s3
           dvc remote modify origin --local access_key_id ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
           dvc remote modify origin --local secret_access_key ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
