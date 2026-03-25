@@ -50,7 +50,7 @@ jobs:
       # 6. Train the model and export the MLflow Run ID
       - name: Train model & log to MLflow
         run: |
-          python main.py --epochs 1
+          uv run main.py --epochs 1
           # train.py must write the Run ID to model_info.txt
           echo "model_info.txt contents:"
           cat model_info.txt
@@ -103,7 +103,7 @@ jobs:
 
       # 6. Run accuracy threshold check (fails pipeline if accuracy < 0.85)
       - name: Check accuracy threshold
-        run: python check_threshold.py
+        run: uv run check_threshold.py
 
       # 7. Mock Docker build (only runs if threshold check passed)
       - name: Mock Docker Build
