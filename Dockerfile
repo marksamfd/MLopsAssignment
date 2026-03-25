@@ -28,4 +28,4 @@ RUN echo "Downloading model for Run ID: ${RUN_ID}" && \
     echo "Model download complete (simulated)."
 
 # ── Default entrypoint ────────────────────────────────────────────────────────
-CMD ["python", "-c", "print('Model container running. Run ID:', open('/app/model/run_id.txt').read().strip())"]
+CMD ["python", "-c", "print('Model f container running. Run ID:', open('/app/model/run_id.txt').read().strip())"]
