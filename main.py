@@ -74,7 +74,7 @@ D = Discriminator().to(device)
 criterion = nn.BCELoss()
 
 G_learning_rate = 0.0001
-D_learning_rate = 0.00001
+D_learning_rate = 0.0000001
 
 optimizer_G = optim.Adam(G.parameters(), lr=G_learning_rate)
 optimizer_D = optim.Adam(D.parameters(), lr=D_learning_rate)
@@ -86,7 +86,7 @@ with mlflow.start_run():
     mlflow.log_param("D_learning_rate", D_learning_rate)
     mlflow.log_param("epochs", epochs)
     mlflow.log_param("noise_dim", 100)
-    mlflow.log_param("batch_size", 128)
+    mlflow.log_param("batch_size", 32)
     mlflow.set_tag("student_id", "202201857")
 
     for epoch in range(epochs):
