@@ -229,6 +229,7 @@ dependencies = [
     { name = "ipykernel" },
     { name = "matplotlib" },
     { name = "mlflow" },
+    { name = "mlflow-custom-headers-plugin" },
     { name = "numpy" },
     { name = "tool" },
     { name = "torch" },
@@ -242,6 +243,7 @@ requires-dist = [
     { name = "ipykernel", specifier = ">=7.2.0" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "mlflow", specifier = ">=3.10.1" },
+    { name = "mlflow-custom-headers-plugin", specifier = ">=1.0.2" },
     { name = "numpy", specifier = ">=2.4.2" },
     { name = "tool", specifier = ">=0.8.0" },
     { name = "torch", specifier = ">=2.10.0" },
@@ -1996,6 +1998,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/8b/94/a583069259500182c070db798118aee7877d37bd1981e49af5ae9113b100/mlflow-3.10.1.tar.gz", hash = "sha256:609509ccc15eb9c17861748e537cbffa57d2caf488ff3e30efed62951a6977cf", size = 9542009, upload-time = "2026-03-05T11:15:22.677Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c2/18/ca682e740b90d5a930981cd375f878a453a713741b5b7d9c0d9516552b5e/mlflow-3.10.1-py3-none-any.whl", hash = "sha256:17bfbd76d4071498d6199c3fc53945e5f50997d14e3e2a6bfd4dc3cb8957f209", size = 10165655, upload-time = "2026-03-05T11:15:19.541Z" },
+]
+
+[[package]]
+name = "mlflow-custom-headers-plugin"
+version = "1.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mlflow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6b/28/158bb1579d45b57c7115daf9678202d37bcc765c620bfa601cc6056f936e/mlflow-custom-headers-plugin-1.0.2.tar.gz", hash = "sha256:13c5e3073019689113495bbf77bc50b96ec3aac7648d01830b54961ce1ae984a", size = 3215, upload-time = "2024-10-31T11:37:26.924Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/28/04/79c0394e06734e7bd69e0795a92c0a0bbfaee510afccf13feff9b92bcc93/mlflow_custom_headers_plugin-1.0.2-py3-none-any.whl", hash = "sha256:bfcf096aa3c9e4bccb7fa97d81e3d27d4d4b61c881982cd95169dc22a8e5ce73", size = 3849, upload-time = "2024-10-31T11:37:25.881Z" },
 ]
 
 [[package]]
