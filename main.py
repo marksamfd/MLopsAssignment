@@ -15,11 +15,9 @@ import matplotlib.pyplot as plt
 import mlflow
 import os
 
-import dagshub
-dagshub.init(repo_owner='marksamfd',
-             repo_name='MLopsAssignment',
-             mlflow=True)
+tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
 
+mlflow.set_tracking_uri(tracking_uri)
 mlflow.set_experiment("Assignment3_MarkSamuel")
 # Load data
 data = np.load("data/shorts.npy")  # shape: (N, 784)
