@@ -21,17 +21,17 @@ jobs:
         uses: actions/checkout@v4
 
       # 2. Set up Python
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
       # 3. Install dependencies
       - name: Install dependencies
         run: |
-          uv sync
+          uv sync --locked --all-extras --dev
 
       - name: Install DVC
         run: pip install dvc[s3]
