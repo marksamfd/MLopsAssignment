@@ -77,11 +77,9 @@ jobs:
       
 
     steps:
-      # 1. Checkout (needed for check_threshold.py & Dockerfile)
       - name: Checkout repository
         uses: actions/checkout@v4
 
-  # 2. Set up Python
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
@@ -89,28 +87,23 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      # 3. Install dependencies
       - name: Install dependencies
         run: |
           uv sync --locked --all-extras --dev
 
-      # 4. Download model_info.txt from the validate job
       - name: Download model_info artifact
         uses: actions/download-artifact@v4
         with:
           name: model-info
 
-      # 5. Show what we received
       - name: Display Run ID
         run: |
           echo "Run ID received:"
           cat model_info.txt
 
-      # 6. Run accuracy threshold check (fails pipeline if accuracy < 0.85)
       - name: Check accuracy threshold
         run: uv run check_threshold.py
 
-      # 7. Mock Docker build (only runs if threshold check passed)
       - name: Mock Docker Build
         run: |
           echo "Building Docker image for Run ID: $(cat model_info.txt)"

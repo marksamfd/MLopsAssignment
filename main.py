@@ -74,7 +74,7 @@ D = Discriminator().to(device)
 criterion = nn.BCELoss()
 
 G_learning_rate = 0.0001
-D_learning_rate = 0.0001
+D_learning_rate = 0.00001
 
 optimizer_G = optim.Adam(G.parameters(), lr=G_learning_rate)
 optimizer_D = optim.Adam(D.parameters(), lr=D_learning_rate)
