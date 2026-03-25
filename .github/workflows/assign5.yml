@@ -81,17 +81,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Set up Python
+  # 2. Set up Python
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-
-      # 3. Install dependencies (mlflow client needed for threshold check)
+      # 3. Install dependencies
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install mlflow
+          uv sync --locked --all-extras --dev
 
       # 4. Download model_info.txt from the validate job
       - name: Download model_info artifact
