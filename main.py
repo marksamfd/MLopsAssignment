@@ -15,11 +15,12 @@ import matplotlib.pyplot as plt
 import mlflow
 import os
 
-tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
+import dagshub
+dagshub.init(repo_owner='marksamfd',
+             repo_name='MLopsAssignment',
+             mlflow=True)
 
-mlflow.set_tracking_uri(tracking_uri)
 mlflow.set_experiment("Assignment3_MarkSamuel")
-mlflow
 # Load data
 data = np.load("data/shorts.npy")  # shape: (N, 784)
 
