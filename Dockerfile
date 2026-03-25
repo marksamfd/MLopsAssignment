@@ -1,31 +1,19 @@
-# ── Base image ────────────────────────────────────────────────────────────────
 FROM python:3.10-slim
 
-# ── Build argument: MLflow Run ID passed in at build time ─────────────────────
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /app
+
+ENV UV_COMPILE_BYTECODE=1
+
+COPY pyproject.toml uv.lock ./
+
+RUN uv sync --frozen --no-install-project --no-dev
 ARG RUN_ID
 ENV RUN_ID=${RUN_ID}
 
-# ── System dependencies ───────────────────────────────────────────────────────
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# ── Python dependencies ───────────────────────────────────────────────────────
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# ── Application code ──────────────────────────────────────────────────────────
 COPY . .
 
-# ── Simulate model download from MLflow ──────────────────────────────────────
-# In production, replace the echo with an mlflow artifacts download command:
-#   RUN mlflow artifacts download -r ${RUN_ID} -d /app/model
-RUN echo "Downloading model for Run ID: ${RUN_ID}" && \
-    mkdir -p /app/model && \
-    echo "${RUN_ID}" > /app/model/run_id.txt && \
-    echo "Model download complete (simulated)."
+RUN uv sync --frozen --no-dev
 
-# ── Default entrypoint ────────────────────────────────────────────────────────
-CMD ["python", "-c", "print('Model f container running. Run ID:', open('/app/model/run_id.txt').read().strip())"]
+CMD ["uv", "run", "python", "-c", "print('Model container running. Run ID:', open('/app/model/run_id.txt').read().strip())"]
