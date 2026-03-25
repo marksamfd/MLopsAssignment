@@ -152,7 +152,7 @@ with mlflow.start_run():
         name=f"discriminator_epoch_{epoch+1}",
         input_example=D_input,
     )
-    run_id = mlflow.active_run.info.run_id
+    run_id = mlflow.active_run().info.run_id
 
 G.eval()
 

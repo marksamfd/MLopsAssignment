@@ -50,7 +50,7 @@ jobs:
       # 6. Train the model and export the MLflow Run ID
       - name: Train model & log to MLflow
         run: |
-          uv run main.py --epochs 1
+          uv run main.py 1
           # train.py must write the Run ID to model_info.txt
           echo "model_info.txt contents:"
           cat model_info.txt
