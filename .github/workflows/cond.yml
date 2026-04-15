@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "Starting expensive training job..."
           # simulate failure for testing (optional)
-          # exit 1
+          exit 1
 
       - name: Generate error logs
         if: failure()
