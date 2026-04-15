@@ -1,0 +1,57 @@
+name: CI/CD Pipeline
+
+on: [push]
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Black
+        run: pip install black
+
+      - name: Run Black (check mode)
+        run: black --check .
+
+  train:
+    runs-on: ubuntu-latest
+    needs: linter
+
+    if: >
+      needs.linter.result == 'success' &&
+      github.ref == 'refs/heads/main' &&
+      contains(github.event.head_commit.message, '[run-train]')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate Training
+        run: |
+          echo "Starting expensive training job..."
+          # simulate failure for testing (optional)
+          # exit 1
+
+      - name: Generate error logs
+        if: failure()
+        run: |
+          echo "Training failed. Debug info:" > error_logs.txt
+          echo "Check model, data, or config." >> error_logs.txt
+
+      - name: Upload error logs artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-logs
+          path: error_logs.txt
+
+      - name: Cleanup resources
+        if: always()
+        run: echo "Cleaning up temporary cloud volumes..."
