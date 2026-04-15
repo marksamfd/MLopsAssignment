@@ -22,12 +22,8 @@ run = client.get_run(run_id)
 accuracy = run.data.metrics.get("D_accuracy")
 
 if accuracy < THRESHOLD:
-    print(
-        f"\nFAILED — Accuracy {accuracy:.4f} is below the threshold of {THRESHOLD}. "
-    )
+    print(f"\nFAILED — Accuracy {accuracy:.4f} is below the threshold of {THRESHOLD}. ")
     sys.exit(1)
 else:
-    print(
-        f"\nPASSED — Accuracy {accuracy:.4f} meets the threshold of {THRESHOLD}. "
-    )
+    print(f"\nPASSED — Accuracy {accuracy:.4f} meets the threshold of {THRESHOLD}. ")
     sys.exit(0)
