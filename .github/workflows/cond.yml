@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Conditional Pipeline
 
 on: [push]
 jobs:
@@ -18,7 +18,7 @@ jobs:
         run: pip install black
 
       - name: Run Black (check mode)
-        run: black --check .
+        run: black . --check
 
   train:
     runs-on: ubuntu-latest
