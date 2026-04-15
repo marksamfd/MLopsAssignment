@@ -11,6 +11,8 @@ with open("model_info.txt", "r") as f:
 
 print(f"Checking accuracy for Run ID: {run_id}")
 
+
+## you may need to rerun training Pipeline
 tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
 
 mlflow.set_tracking_uri(tracking_uri)
