@@ -1,6 +1,9 @@
 name: Conditional Pipeline
 
-on: [push]
+on: 
+  push: 
+    branches:
+      - main
 jobs:
   linter:
     runs-on: ubuntu-latest

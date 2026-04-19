@@ -1,0 +1,63 @@
+name: Assignment 7 Workflow
+on: [push]
+
+jobs:
+  DataAndCode:
+    name: Data and Code Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install dependencies
+        run: uv sync --locked --all-extras --dev
+
+      - name: Install DVC
+        run: pip install dvc[s3]
+
+      - name: Configure DagsHub DVC remote
+        run: |
+          dvc remote add -f origin s3://dvc
+          dvc remote modify origin endpointurl https://dagshub.com/marksamfd/MLopsAssignment.s3
+          dvc remote modify origin --local access_key_id ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
+          dvc remote modify origin --local secret_access_key ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
+
+      - name: Pull data with DVC
+        run: dvc pull
+
+      - name: Check data
+        run: python check_data.py
+  ForensicBuild:
+    needs: DataAndCode
+    name: Forensic Build Check
+    runs-on: ubuntu-latest
+    env:
+      MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+      MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+      MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
+
+    if: github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[build-image]')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker Build
+        run: |
+          docker build .
+          echo "Docker image built successfully!"
+  FinalGate:
+    needs: ForensicBuild
+    name: Final Gate Check
+    runs-on: ubuntu-latest
+    if: needs.ForensicBuild.result == 'success'
+    steps:
+      - name: Image Promoted
+        run: echo "Promoting v1.0.2 to Clinic..."
