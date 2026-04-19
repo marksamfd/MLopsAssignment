@@ -34,7 +34,7 @@ jobs:
         run: dvc pull
 
       - name: Check data
-        run: python check_data.py
+        run: uv run check_data.py
   ForensicBuild:
     needs: DataAndCode
     name: Forensic Build Check
