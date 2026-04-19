@@ -51,8 +51,12 @@ jobs:
 
       - name: Docker Build
         run: |
-          docker build .
-          echo "Docker image built successfully!"
+            docker build \
+            --build-arg MLFLOW_TRACKING_URI=${{ secrets.MLFLOW_TRACKING_URI }} \
+            --build-arg MLFLOW_TRACKING_USERNAME=${{ secrets.DAGSHUB_USERNAME }} \
+            --build-arg MLFLOW_TRACKING_PASSWORD=${{ secrets.DAGSHUB_TOKEN }} \
+            -t my-ml-image .
+            echo "Docker image built successfully!"
   FinalGate:
     needs: ForensicBuild
     name: Final Gate Check
